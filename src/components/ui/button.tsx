@@ -6,9 +6,11 @@ type ButtonProps={
 
 function Button({children, className, ...props}:ButtonProps) {
   return (
-    <button className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition" {...props}>{children}</button>
+    <button className={`w-full bg-[#44348a] text-white py-3 rounded-lg hover:bg-[#5847a8] transition ${className}`} {...props}>{children}</button>
   )
 
 }
 
 export default Button
+
+
