@@ -5,7 +5,8 @@ export type User = {
     lastName: string,
     email: string,
     id: number,
-    role: Role
+    role: Role,
+    contact: string,
 }
 
 export type Session = {
@@ -14,6 +15,6 @@ export type Session = {
 }
 
 export type UserData = {
-    profilePicture: string;
+    profilePicture?: string;
     contact: string;
 } & User

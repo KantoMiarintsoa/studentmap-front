@@ -24,7 +24,8 @@ export default function RegisterForm() {
       register,
       handleSubmit,
       formState:{errors},
-    }=useForm<RegisterFormData>({
+      setError
+    }=useForm<RegisterFormData> ({
       resolver:zodResolver(registerSchema)
     });
 
@@ -34,8 +35,11 @@ export default function RegisterForm() {
         await registerApi(data)
         router.push("/login")
       }
-      catch(error){
-        console.log(error)
+      catch(error:any){
+        const errorMessage  = error.response.data.message as string;
+        if(errorMessage.includes("email")){
+          setError("email", {message:"Email existe deja"});
+        }
       }
 
     }

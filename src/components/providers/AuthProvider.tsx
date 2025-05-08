@@ -26,7 +26,6 @@ const AuthProvider=({children}:{children:ReactNode})=>{
                 const response= await axios.get("/api/auth/cookies");
 
                 if(response.status===200){
-                    console.log(response.data.session)
                     setSession(response.data.session)
                     setStatus("authenticated")
                 }

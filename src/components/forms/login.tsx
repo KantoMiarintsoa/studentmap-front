@@ -20,10 +20,11 @@ export default function Login() {
 
     async function handleSubmit(){
         const data=await login(email,password);
-        if(data.user.role==="OWNER")
+        console.log(data)
+        // if(data.user.role==="OWNER")
         await axios.post("/api/auth/cookies", {token:data.access_token, user:data.user});
         updateSession(data);
-        router.push('/')
+        router.push('/admin/university');
     }
 
   return (

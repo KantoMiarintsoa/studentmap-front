@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     const res = NextResponse.json({ message: "Connection success" });
 
     res.cookies.set("auth", JSON.stringify({ token, user }), {
-        maxAge: 60 * 60 * 24 * 7,
+        maxAge: 60 * 60 * 24,
         httpOnly: true,
         // secure: process.env.NODE_ENV === "production",
         sameSite: true,
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
     // setCookie("auth-token", token, {
     // maxAge: 60 * 60 * 24 * 7,
-    // httpOnly: true,
+    // httpOnly: true,  
     // // secure: process.env.NODE_ENV === "production",
     // sameSite: true,
     // path: "/"
