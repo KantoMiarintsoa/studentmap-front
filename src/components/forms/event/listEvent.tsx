@@ -1,10 +1,13 @@
 "use client";
-import { getListEvent } from '@/service/api';
+import { getListEvent, searchEventsByName } from '@/service/api';
 import { Event } from '@/types/event';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import SaveEvent from './saveEvent';
 import DetailsEvent from './detailsEvent';
+import { useTranslations } from 'next-intl';
+import debounce from 'lodash/debounce';
+import { FaSearch } from 'react-icons/fa';
 
 function ListEvent() {
     const [events, setEvents] = useState<Event[]>([]);
@@ -15,8 +18,10 @@ function ListEvent() {
     const menuRef = useRef<HTMLDivElement | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);  
     const [eventToEdit, setEventToEdit] = useState<Event | null>(null);
+    const [search,setSearch]=useState('')
 
-    const router = useRouter();
+    const router =useRouter();
+    const t=useTranslations("Event")
 
     function handleEventCreated(event: Event) {
         setEvents([...events, event]);
@@ -72,32 +77,66 @@ function ListEvent() {
         setOpenMenuId(openMenuId === id ? null : id);
     };
 
+const debouncedSearch=useCallback(
+        debounce(async(value:string)=>{
+            setLoading(true);
+            try{
+                if(value.trim()===''){
+                    const data=await getListEvent();
+                    setEvents(data)
+                }
+                else{
+                    const resultats=await searchEventsByName(value);
+                    setEvents(resultats)
+                    console.log(resultats)
+                }
+            }
+            catch(error){
+                setError("Erreur lors de la recherche")
+            }
+            finally{
+                setLoading(false)
+            }
+        },300),[]
+    )
+
+        const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
+            const value=e.target.value
+            setSearch(value)
+            debouncedSearch(value)
+        }
+
     return (
         <div className="p-4 w-full flex-1">
-            <div className="flex justify-end mb-6">
+            <div className="flex justify-between items-center mb-6">
+                <div className="relative w-1/5 shadow-2xs">
+                    <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        type="text"
+                        placeholder={t("detailsEvent.searchEvent")}
+
+                        value={search}
+                        onChange={handleChange}
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+                </div>
                 <SaveEvent onEventCreated={handleEventCreated} />
             </div>
-
-            {/* <DetailsEvent
-                event={eventToEdit}
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-            /> */}
 
             {loading ? (
                 <p className="text-center text-gray-500">Chargement...</p>
             ) : error ? (
                 <p className="text-center text-red-500">{error}</p>
             ) : (
-                <div className="overflow-x-auto">
-                    <table className="w-full table-fixed bg-white border border-gray-200 shadow-lg rounded-md">
-                        <thead className="bg-gray-100">
+                <div className="overflow-x-auto shadow-lg dark:shadow-[0_0_20px_#686868] rounded-md border border-gray-200 dark:border-stone-100/10 p-2">
+                    <table className="w-full table-fixed bg-card dark:border-none border border-gray-200 rounded-md">
+                        <thead className="bg-slate-60">
                             <tr className="text-left border-b">
-                                <th className="py-2 px-4 w-1/5">Nom</th>
-                                <th className="py-2 px-4 w-1/5">Localisation</th>
-                                <th className="py-2 px-4 w-1/5">Inscription</th>
-                                <th className="py-2 px-4 w-1/5">Date de début</th>
-                                <th className="py-2 px-4 w-1/5 text-center">Action</th>
+                                <th className="py-2 px-4 w-1/5">{t("listsEvent.name")}</th>
+                                <th className="py-2 px-4 w-1/5">{t("listsEvent.localisation")}</th>
+                                <th className="py-2 px-4 w-1/5">{t("listsEvent.inscription")}</th>
+                                <th className="py-2 px-4 w-1/5">{t("listsEvent.StartDate")}</th>
+                                <th className="py-2 px-4 w-1/5 text-center">{t("listsEvent.action")}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,7 +145,7 @@ function ListEvent() {
                                     <tr
                                         key={event.id}
                                         onClick={() => handleRowClick(event.id)}
-                                        className={`cursor-pointer hover:bg-gray-50 ${selectedEvent === event.id ? 'bg-gray-200' : ''}`}
+                                        className={`cursor-pointer dark:hover:bg-gray-700 ${selectedEvent === event.id ? 'bg-gray-200' : ''}`}
                                     >
                                         <td className="py-2 px-4">{event.name}</td>
                                         <td className="py-2 px-4">{event.location}</td>
@@ -170,3 +209,5 @@ function ListEvent() {
 }
 
 export default ListEvent;
+
+

@@ -7,5 +7,13 @@ export type Accommodation = {
     IsAvailable: boolean
     rentMin: number
     rentMax: number
-    type: string
+    type: string,
+    description: string
+}
+
+export type SearchParams = {
+    name?: string;
+    address?: string;
+    type?: string;
+    budget?: number;
 }

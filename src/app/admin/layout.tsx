@@ -9,7 +9,7 @@ function Layout(
     }
 ) {
   return (
-    <div className='min-h-full flex bg-[#d9edfc] w-full'>
+    <div className='min-h-full flex bg-background w-full'>
         <Sidebar/>
         <div className='flex flex-col gap-2 flex-1'>
             <TopBar/>

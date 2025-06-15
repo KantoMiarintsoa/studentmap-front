@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { UserData } from '@/types/user';
 import { deleteUser, detailsUser } from '@/service/api';
+import { useTranslations } from 'next-intl';
 
 function DetailUser({ id }: { id: number }) {
   const [user, setUser] = useState<UserData>();
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const t=useTranslations("UniversityPage")
   const router = useRouter();
 
   useEffect(() => {
@@ -40,7 +42,7 @@ function DetailUser({ id }: { id: number }) {
   if (!user) return <p className="text-center text-gray-500">Chargement...</p>;
 
   return (
-    <div className="relative p-6 bg-white rounded-lg border-4 border-gray-300 shadow-lg max-w-4xl mx-auto mt-8">
+    <div className="relative p-6 dark:card-modal rounded-lg border-4 border-gray-300 shadow-lg max-w-4xl mx-auto mt-8">
       {successMsg && (
         <div className="absolute top-4 left-4 flex items-center space-x-2 px-4 py-2 bg-green-100 border border-green-400 text-green-800 rounded-md shadow-md transition-transform animate-slide-in">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -55,10 +57,10 @@ function DetailUser({ id }: { id: number }) {
       </h2>
 
       <div className="space-y-4">
-        <p><span className="font-semibold">Nom:</span> {user.lastName}</p>
-        <p><span className="font-semibold">Prénom:</span> {user.firstName}</p>
-        <p><span className="font-semibold">Email:</span> {user.email}</p>
-        <p><span className="font-semibold">Contact:</span> {user.contact}</p>
+        <p><span className="font-semibold">{t("tableColumn.name")}:</span> {user.lastName}</p>
+        <p><span className="font-semibold">{t("tableColumn.lastName")}:</span> {user.firstName}</p>
+        <p><span className="font-semibold">{t("tableColumn.email")}:</span> {user.email}</p>
+        <p><span className="font-semibold">{t("tableColumn.contact")}:</span> {user.contact}</p>
         <p><span className="font-semibold">Rôle:</span> {user.role}</p>
         {user.profilePicture && (
           <div>
@@ -73,7 +75,7 @@ function DetailUser({ id }: { id: number }) {
           onClick={() => setShowConfirmation(true)}
           className="px-6 py-2 text-red-600 border-2 border-red-600 rounded-lg hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 shadow-md"
         >
-          Supprimer
+          {t("modalAddUniversity.remove")}
         </button>
       </div>
 
@@ -102,4 +104,5 @@ function DetailUser({ id }: { id: number }) {
   );
 }
 export default DetailUser;
+
 

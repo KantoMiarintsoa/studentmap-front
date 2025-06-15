@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const addAccommodationSchema = z.object({
+    description: z.string().optional(),
     name: z.string().min(1, { message: "Le nom est requis." }),
     address: z.string().min(1, { message: "L'adresse est requise." }),
     area: z
@@ -15,7 +16,15 @@ export const addAccommodationSchema = z.object({
         .number({ invalid_type_error: "Le loyer maximum doit être un nombre." })
         .nonnegative({ message: "Le loyer maximum ne peut pas être négatif." }),
     currency: z.string().min(1, { message: "La devise est requise." }).default("Ar"),
-    media: z.any().optional(),
+    media: z.any().optional()
+        .refine((files) => {
+            if (!files) return true;
+            return files instanceof FileList || Array.isArray(files)
+        }, {
+            message: "Les fichiers sélectionnés sont invalides."
+        }
+
+        ),
     type: z.string().min(1, { message: "Le type de logement est requis." }),
 
     ownerId: z

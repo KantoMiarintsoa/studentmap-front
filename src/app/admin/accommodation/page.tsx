@@ -3,8 +3,8 @@ import React from 'react'
 
 function AccommodationPage() {
   return (
-    <div>
-        <ListsAccommodation/>
+    <div className='flex flex-col items-end min-h-screen bg-card-primary p-4 relative w-full'>
+        <ListsAccommodation />
     </div>
   )
 }

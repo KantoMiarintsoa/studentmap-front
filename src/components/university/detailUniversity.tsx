@@ -3,12 +3,15 @@ import { University } from '@/types/university';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import SaveUniversity from './saveUniversity';
+import { useTranslations } from 'next-intl';
 
 function DetailUniversity({ id }: { id: number }) {
   const [detailsUniversity, setDetailsUniversity] = useState<University | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const router = useRouter();
+    const t= useTranslations();
+  
 
   useEffect(() => {
     const getDetailsUniversity = async () => {
@@ -33,7 +36,7 @@ function DetailUniversity({ id }: { id: number }) {
   }
 
   if (!detailsUniversity) {
-    return <p className="text-center text-gray-500">Chargement...</p>;
+    return <p className="text-center text-gray-500">{t("UniversityPage.modalAddUniversity.loading")}</p>;
   }
 
   const handleDelete = async () => {
@@ -57,8 +60,8 @@ function DetailUniversity({ id }: { id: number }) {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg border-4 border-gray-300 shadow-lg max-w-4xl mx-auto mt-8">
-      <h2 className="text-3xl font-semibold text-gray-900 mb-4">{detailsUniversity.name}</h2>
+    <div className="p-8 bg-card-modal rounded-lg border-4 border-gray-600 shadow-[0_4px_20px_rgba(255,255,255,0.08)] max-w-4xl mx-auto mt-8">
+      <h2 className="text-3xl font-semibold dark:text-white text-center">{detailsUniversity.name}</h2>
 
       {successMessage && (
         <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-lg border border-green-400 shadow">
@@ -73,17 +76,17 @@ function DetailUniversity({ id }: { id: number }) {
       )}
 
       <div className="space-y-4">
-        <p className="text-gray-700">
-          <span className="font-semibold">Nom:</span> {detailsUniversity.name}
+        <p className="font-semibold dark:text-white">
+          <span className="font-semibold dark:text-white">{t("UniversityPage.tableColumn.name")}:</span> {detailsUniversity.name}
         </p>
-        <p className="text-gray-700">
-          <span className="font-semibold">Description:</span> {detailsUniversity.description}
+        <p className="font-semibold dark:text-white">
+          <span className="font-semibold dark:text-white">{t("UniversityPage.tableColumn.description")}:</span> {detailsUniversity.description}
         </p>
-        <p className="text-gray-700">
-          <span className="font-semibold">Type:</span> {detailsUniversity.type}
+        <p className="font-semibold dark:text-white">
+          <span className="font-semibold dark:text-white">{t("UniversityPage.tableColumn.type")}:</span> {detailsUniversity.type}
         </p>
-        <p className="text-gray-700">
-          <span className="font-semibold">Website:</span>
+        <p className="font-semibold dark:text-white">
+          <span className="font-semibold dark:text-white">{t("UniversityPage.tableColumn.webSite")}:</span>
           <a
             href={detailsUniversity.webSite}
             target="_blank"
@@ -93,14 +96,14 @@ function DetailUniversity({ id }: { id: number }) {
             {detailsUniversity.webSite}
           </a>
         </p>
-        <p className="text-gray-700">
-          <span className="font-semibold">Mention:</span> {detailsUniversity.mention.join(", ")}
+        <p className="font-semibold dark:text-white">
+          <span className="font-semibold dark:text-white">{t("UniversityPage.tableColumn.option")}:</span> {detailsUniversity.mention.join(", ")}
         </p>
-        <p className="text-gray-700">
-          <span className="font-semibold">Ville:</span> {detailsUniversity.city}
+        <p className="font-semibold dark:text-white">
+          <span className="font-semibold dark:text-white">{t("UniversityPage.modalAddUniversity.city")}:</span> {detailsUniversity.city}
         </p>
-        <p className="text-gray-700">
-          <span className="font-semibold">Adresse:</span> {detailsUniversity.address}
+        <p className="font-semibold dark:text-white">
+          <span className="font-semibold dark:text-white">{t("UniversityPage.modalAddUniversity.address")}:</span> {detailsUniversity.address}
         </p>
       </div>
 
@@ -113,7 +116,7 @@ function DetailUniversity({ id }: { id: number }) {
           onClick={handleDelete}
           className="px-6 py-2 text-red-600 border-2 border-red-600 rounded-lg hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 shadow-md"
         >
-          Supprimer
+          {t("UniversityPage.modalAddUniversity.remove")}
         </button>
       </div>
     </div>

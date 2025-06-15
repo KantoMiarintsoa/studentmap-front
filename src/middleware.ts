@@ -19,6 +19,10 @@ export default async function middleware(request: NextRequest) {
     // ]
     const { pathname } = request.nextUrl;
 
+    if (pathname === "/") {
+        return NextResponse.next()
+    }
+
 
     // if (NO_AUTH.includes(pathname)) {
     //     return NextResponse.next()

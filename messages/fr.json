@@ -1,0 +1,110 @@
+{
+    "default": {
+        "title": "StudentMap"
+    },
+    "Sidebar": {
+        "dashboard": "Tableau de bord",
+        "users": "Utilisateurs",
+        "accommodations": "logements",
+        "universities": "université",
+        "event": "Evenements",
+        "reports": "rapport",
+        "Messages": "Messages",
+        "title": "StudentMap",
+        "addAdmin": "Ajouter un administrateur"
+    },
+    "UniversityPage": {
+        "addUniversity": "Ajouter université",
+        "tableColumn": {
+            "name": "Nom",
+            "lastName": "Prenom",
+            "contact": "Contact",
+            "roles": "roles",
+            "email": "Email",
+            "address": "adresse",
+            "type": "type",
+            "webSite": "site web",
+            "description": "description",
+            "option": "mentions",
+            "searchUniversity": "Recherche de l'utilisateur..."
+        },
+        "modalAddUniversity": {
+            "addUniversity": "Ajout université",
+            "nameOfUniversity": "nom de l université",
+            "description": "description",
+            "city": "ville",
+            "webSite": "site web",
+            "address": "adresse",
+            "register": "Enregistrer",
+            "cancel": "Annuler",
+            "update": "Mis a jour",
+            "loading": "Chargement...",
+            "edit": "modfier",
+            "remove": "supprimer",
+            "mentions": {
+                "SelectMention": "Sélectionner une mention",
+                "informatique": "informatique",
+                "gestion": "gestion",
+                "communication": "communication",
+                "other": "Autre"
+            },
+            "type": {
+                "public": "public",
+                "private": "privé"
+            }
+        }
+    },
+    "Accommodation": {
+        "SaveAccommodation": {
+            "addAccommodation": "🏠 Ajouter Logement"
+        },
+        "listAccommodations": {
+            "name": "Nom",
+            "address": "Adresse",
+            "type": "Type",
+            "available": "Disponible",
+            "action": "Action",
+            "rent": "loyer"
+        },
+        "detailsAccommodation": {
+            "area": "Superficie",
+            "capacity": "Capacité",
+            "rent": "Loyer",
+            "edit": "editer",
+            "remove": "Supprimer"
+        }
+    },
+    "Event": {
+        "SaveEvent": {
+            "addEvent": "📅 Ajouter Événement"
+        },
+        "listsEvent": {
+            "name": "Nom",
+            "localisation": "Localisation",
+            "inscription": "Inscription",
+            "StartDate": "Date de début",
+            "action": "Action"
+        },
+        "detailsEvent": {
+            "description": "description",
+            "endDate": "Date de fin",
+            "createdAt": "Créé le",
+            "updatedAt": "Mis à jour le",
+            "capacity": "Capacité",
+            "inscriptionLink": "lien d'inscription",
+            "edit": "Editer",
+            "remove": "Supprimer",
+            "searchEvent": "Recheche d un evenement"
+        }
+    },
+    "Dashboard": {
+        "Users": "Utilisateurs",
+        "Accommodations": "Logements",
+        "Universities": "Universités",
+        "Event": "Événements",
+        "evolutionRegistrations": "Évolution des Inscriptions",
+        "Distribution": "Répartition",
+        "universitiesMap": "Carte des Universités",
+        "HousingMap": "Carte de logements"
+    }
+}

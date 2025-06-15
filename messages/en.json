@@ -1,0 +1,110 @@
+{
+    "default": {
+        "title": "StudentMap"
+    },
+    "Sidebar": {
+        "dashboard": "Dashboard",
+        "users": "Users",
+        "accommodations": "Accommodations",
+        "universities": "Universities",
+        "event": "Events",
+        "reports": "Reports",
+        "Messages": "Messages",
+        "title": "StudentMap",
+        "addAdmin": "Add an user"
+    },
+    "UniversityPage": {
+        "addUniversity": "Add University",
+        "tableColumn": {
+            "name": "First Name",
+            "lastName": "Last Name",
+            "contact": "Contact",
+            "roles": "Roles",
+            "email": "Email",
+            "address": "Address",
+            "type": "Type",
+            "webSite": "Website",
+            "description": "Description",
+            "option": "mentions",
+            "searchUniversity": "Search for user..."
+        },
+        "modalAddUniversity": {
+            "addUniversity": "Add University",
+            "nameOfUniversity": "University Name",
+            "description": "Description",
+            "city": "City",
+            "webSite": "Website",
+            "address": "Address",
+            "register": "Save",
+            "cancel": "Cancel",
+            "update": "Update",
+            "loading": "Loading...",
+            "edit": "Edit",
+            "remove": "Delete",
+            "mentions": {
+                "SelectMention": "Select a mention",
+                "informatique": "Computer Science",
+                "gestion": "Management",
+                "communication": "Communication",
+                "other": "Other"
+            },
+            "type": {
+                "public": "Public",
+                "private": "Private"
+            }
+        }
+    },
+    "Accommodation": {
+        "SaveAccommodation": {
+            "addAccommodation": "🏠 Add Accommodation"
+        },
+        "listAccommodations": {
+            "name": "Name",
+            "address": "Address",
+            "type": "Type",
+            "available": "Available",
+            "action": "Action",
+            "rent": "rent"
+        },
+        "detailsAccommodation": {
+            "area": "Area",
+            "capacity": "Capacity",
+            "rent": "Rent",
+            "edit": "Edit",
+            "remove": "Delete"
+        }
+    },
+    "Event": {
+        "SaveEvent": {
+            "addEvent": "📅 Add Event"
+        },
+        "listsEvent": {
+            "name": "Name",
+            "localisation": "Location",
+            "inscription": "Registration",
+            "StartDate": "Start Date",
+            "action": "Action"
+        },
+        "detailsEvent": {
+            "description": "Description",
+            "endDate": "End Date",
+            "createdAt": "Created on",
+            "updatedAt": "Updated on",
+            "capacity": "Capacity",
+            "inscriptionLink": "Registration Link",
+            "edit": "Edit",
+            "remove": "Delete",
+            "searchEvent": "Search an event"
+        }
+    },
+    "Dashboard": {
+        "Users": "Users",
+        "Accommodations": "Accommodations",
+        "Universities": "Universities",
+        "Event": "Events",
+        "evolutionRegistrations": "Registration Trends",
+        "Distribution": "Distribution",
+        "universitiesMap": "University Map",
+        "HousingMap": "Accommodation Map"
+    }
+}

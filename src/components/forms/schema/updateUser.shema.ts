@@ -8,7 +8,9 @@ export const userUpdateSchema = z.object({
     profilePicture: z.string().optional(),
     oldPassword: z.string().min(6, "L'ancien mot de passe doit contenir au moins 6 caractères"),
     newPassword: z.string().min(6, "Le nouveau mot de passe doit contenir au moins 6 caractères").optional(),
-    roles: z.enum(["STUDENT", "ADMIN", "PROPRIETAIRE", "ORGANISATEUR"]).array(),
+    role: z.string().refine(
+        data => ["STUDENT", "ADMIN", "OWNER", "ORGANIZER"].includes(data)
+    ),
 });
 
 export type UserUpdateFormData = z.infer<typeof userUpdateSchema>;

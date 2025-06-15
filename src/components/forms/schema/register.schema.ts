@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const registerSchema = z.object({
+    role: z.literal("ADMIN"),
     firstName: z.string().min(2, "le nom est requis"),
     lastName: z.string().min(1, "le prenom est requis"),
     email: z.string().email({ message: "email est requis" }),

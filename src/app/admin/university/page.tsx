@@ -8,7 +8,7 @@ import React from 'react'
 function AdminPage() {
 
   return (
-    <div className="flex flex-col items-end min-h-screen bg-gray-100 p-4 relative w-full">
+    <div className="flex flex-col items-end min-h-screen bg-card-primary p-4 relative w-full">
       {/* <SaveUniversity/> */}
       <ListUniversity/>
     </div>

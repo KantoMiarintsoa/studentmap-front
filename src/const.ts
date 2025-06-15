@@ -1,7 +1,7 @@
 export const pageTitles = [
-    { pathname: "/admin/dashboard", text: "Tableau de bord" },
-    { pathname: '/admin/user', text: "Utilisateurs" },
-    { pathname: '/admin/accommodation', text: "Logements" },
-    { pathname: '/admin/university', text: "Université" },
-    { pathname: '/admin/event', text: "Evenements" },
+    { pathname: "/admin/dashboard", text: "dashboard" },
+    { pathname: '/admin/user', text: "users" },
+    { pathname: '/admin/accommodation', text: "accommodations" },
+    { pathname: '/admin/university', text: "universities" },
+    { pathname: '/admin/event', text: "event" },
 ];

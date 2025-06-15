@@ -7,6 +7,7 @@ import { deleteEvent, detailsEvents, updateEvent } from '@/service/api';
 import { motion } from 'framer-motion';
 import { FaTimes } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 function DetailEvent({ id }: { id: number }) {
   const [event, setEvent] = useState<Event | null>(null);
@@ -15,6 +16,7 @@ function DetailEvent({ id }: { id: number }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
+  const t=useTranslations("Event")
 
   const {
     register,
@@ -70,7 +72,7 @@ function DetailEvent({ id }: { id: number }) {
   if (!event) return <p className="text-center text-gray-500">Chargement...</p>;
 
   return (
-    <div className="p-6 bg-white rounded-lg border-4 border-gray-300 shadow-lg max-w-4xl mx-auto mt-8">
+    <div className="p-6 dark:bg-card-modal rounded-lg border-4 border-gray-300 shadow-lg max-w-4xl mx-auto mt-8">
       <h2 className="text-2xl font-semibold text-blue-900 mb-4 text-center">{event.name}</h2>
 
       {successMessage && (
@@ -80,18 +82,18 @@ function DetailEvent({ id }: { id: number }) {
       )}
 
       <div className="space-y-3">
-        <p><span className="font-semibold">Nom:</span> {event.name}</p>
-        <p><span className="font-semibold">Description:</span> {event.description}</p>
-        <p><span className="font-semibold">Début:</span> {new Date(event.startDate).toLocaleString()}</p>
-        <p><span className="font-semibold">Fin:</span> {new Date(event.endDate).toLocaleString()}</p>
-        <p><span className="font-semibold">Créé le:</span> {new Date(event.created_at).toLocaleString()}</p>
-        <p><span className="font-semibold">Mis à jour le:</span> {new Date(event.updated_at).toLocaleString()}</p>
-        <p><span className="font-semibold">Lieu:</span> {event.location || 'Non spécifié'}</p>
-        <p><span className="font-semibold">Capacité:</span> {event.capacity || 'Non définie'}</p>
-        <p><span className="font-semibold">Inscription ouverte:</span> {event.registration_available ? 'Oui' : 'Non'}</p>
+        <p><span className="font-semibold">{t("listsEvent.name")}:</span> {event.name}</p>
+        <p><span className="font-semibold">{t("detailsEvent.description")}:</span> {event.description}</p>
+        <p><span className="font-semibold">{t("listsEvent.StartDate")}:</span> {new Date(event.startDate).toLocaleString()}</p>
+        <p><span className="font-semibold">{t("detailsEvent.endDate")}:</span> {new Date(event.endDate).toLocaleString()}</p>
+        <p><span className="font-semibold">{t("detailsEvent.createdAt")}:</span> {new Date(event.created_at).toLocaleString()}</p>
+        <p><span className="font-semibold">{t("detailsEvent.updatedAt")}:</span> {new Date(event.updated_at).toLocaleString()}</p>
+        <p><span className="font-semibold">{t("listsEvent.localisation")}:</span> {event.location || 'Non spécifié'}</p>
+        <p><span className="font-semibold">{t("detailsEvent.capacity")}:</span> {event.capacity || 'Non définie'}</p>
+        <p><span className="font-semibold">{t("listsEvent.inscription")}:</span> {event.registration_available ? 'Oui' : 'Non'}</p>
         {event.registration_link && (
           <p>
-            <span className="font-semibold">Lien d'inscription:</span>
+            <span className="font-semibold">{t("detailsEvent.inscriptionLink")}:</span>
             <a href={event.registration_link} target="_blank" className="text-blue-500 hover:underline ml-2">Lien</a>
           </p>
         )}
@@ -105,13 +107,13 @@ function DetailEvent({ id }: { id: number }) {
           onClick={() => setShowModal(true)}
           className="px-6 py-2 text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-50 cursor-pointer"
         >
-          Éditer
+          {t("detailsEvent.edit")}
         </button>
         <button
           onClick={() => setShowConfirmation(true)}
           className="px-6 py-2 text-red-600 border-2 border-red-600 rounded-lg hover:bg-red-50 cursor-pointer"
         >
-          Supprimer
+          {t("detailsEvent.remove")}
         </button>
       </div>
 
@@ -142,7 +144,7 @@ function DetailEvent({ id }: { id: number }) {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative"
+            className="dark:bg-card-modal rounded-lg shadow-lg w-full max-w-lg p-6 relative"
           >
             <button
               onClick={() => setShowModal(false)}

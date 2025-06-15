@@ -8,3 +8,9 @@ export type University = {
     mention: string[],
     address: string
 }
+
+export type SearchParamsUniversity = {
+    name?: string,
+    address?: string,
+    type?: string
+}

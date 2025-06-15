@@ -3,7 +3,7 @@ import React from 'react'
 
 function Page() {
   return (
-    <div>
+    <div className='flex flex-col items-end min-h-screen bg-card-primary p-4 relative w-full'>
         <ListUser/>
     </div>
   )

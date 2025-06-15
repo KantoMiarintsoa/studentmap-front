@@ -2,13 +2,13 @@ import { addUniversityFormData } from "@/components/forms/schema/addUniversity.s
 import { RegisterFormData } from "@/components/forms/schema/register.schema";
 import { UserUpdateFormData } from "@/components/forms/schema/updateUser.shema";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { University } from "@/types/university";
+import { SearchParamsUniversity, University } from "@/types/university";
 import { Session, User, UserData } from "@/types/user";
 import { Event } from "@/types/event";
 import axios from "axios"
 import { EventFormData } from "@/components/forms/schema/addEvent.schema";
 import { addAccommodationFormData } from "@/components/forms/schema/addAccommodationSchema";
-import { Accommodation } from "@/types/accommodation";
+import { Accommodation, SearchParams } from "@/types/accommodation";
 import { Graph } from "@/types/graph";
 import { Total } from "@/types/dashboard";
 
@@ -47,8 +47,19 @@ export const login = async (email: string, password: string) => {
     return response.data
 }
 
+export const exportPdf = async () => {
+    const response = await api.get("export/pdf", {
+        responseType: "blob",
+    });
+    return response;
+};
+
 export const register = async ({ confirmPassword, ...data }: RegisterFormData) => {
     const response = await api.post<UserData>("users/register", data);
+    return response.data
+}
+export const registerAdmin = async ({ confirmPassword, ...data }: RegisterFormData) => {
+    const response = await api.post<UserData>('users/add-admin', data)
     return response.data
 }
 
@@ -76,8 +87,20 @@ export const deleteUniversity = async (id: number) => {
     const response = await api.delete<University>(`university/${id}/delete`)
 }
 
-export const editUser = async (id: number, data: Partial<UserUpdateFormData>) => {
-    const response = await api.put<User>(`users/${id}/update`, data)
+export const searchAdvanceduniversity = async (params: SearchParamsUniversity) => {
+    const query = new URLSearchParams();
+
+    if (params.name) query.append('name', params.name);
+    if (params.address) query.append('address', params.address);
+    if (params.type) query.append('type', params.type);
+
+    const response = await api.get<University[]>(`university/filter?${query.toString()}`);
+    return response.data;
+};
+
+
+export const editUser = async (id: number, { newPassword, ...data }: Partial<UserUpdateFormData>) => {
+    const response = await api.put<User>(`users/${id}/update`, { ...data, password: newPassword })
     return response.data
 }
 export const deleteUser = async (id: number) => {
@@ -87,12 +110,16 @@ export const deleteUser = async (id: number) => {
 
 export const getListUsers = async () => {
     const response = await api.get<User[]>("users/lists")
-
     return response.data
 }
 
 export const detailsUser = async (id: number) => {
     const response = await api.get<UserData>(`users/${id}/details`)
+    return response.data
+}
+
+export const searchUser = async (firstName: string = ""): Promise<User[]> => {
+    const response = await api.get<User[]>("users/search?firstName=" + firstName)
     return response.data
 }
 
@@ -121,10 +148,63 @@ export const detailsEvents = async (id: number) => {
     return response.data
 }
 
-export const addAccommodation = async (data: addAccommodationFormData) => {
-    const response = await api.post<Accommodation>("accommodation/add", data)
+export const searchEventsByName = async (name: string) => {
+    const response = await api.get<Event[]>("event/search?name=" + name)
     return response.data
 }
+
+// export interface addAccommodationFormData {
+//     name: string;
+//     address: string;
+//     area: string;
+//     receptionCapacity: number;
+//     IsAvailable: boolean;
+//     rentMin: number;
+//     rentMax: number;
+//     type: string;
+//     media: {
+//         images: File[];
+//     };
+//     ownerId: string;
+// }
+
+export const addAccommodation = async (data: addAccommodationFormData) => {
+    if (!data.ownerId) {
+        throw new Error("ownerId is required");
+    }
+
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("address", data.address);
+    formData.append("area", data.area.toString());
+    formData.append("receptionCapacity", data.receptionCapacity);
+    formData.append("IsAvailable", data.IsAvailable ? "true" : "false");
+    formData.append("rentMin", data.rentMin.toString());
+    formData.append("rentMax", data.rentMax.toString());
+    formData.append("type", data.type);
+    formData.append("ownerId", data.ownerId.toString());
+
+    if (data.media && Array.isArray(data.media.images)) {
+        data.media.images.forEach((file: File) => {
+            formData.append("media", file);
+        });
+    }
+
+    const response = await api.post("accommodation/add", formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    });
+    console.log(data)
+
+    return response.data;
+};
+
+
+
+
+
 export const getListAccommodations = async () => {
     const response = await api.get<Accommodation[]>("accommodation/lists")
 
@@ -146,6 +226,19 @@ export const deleteAccommodation = async (id: number) => {
     return response.data
 }
 
+export const searchAdvancedAccommodation = async (params: SearchParams) => {
+    const query = new URLSearchParams();
+
+    if (params.name) query.append('name', params.name);
+    if (params.address) query.append('address', params.address);
+    if (params.type) query.append('type', params.type);
+    if (params.budget !== undefined) query.append('budget', params.budget.toString());
+
+    const response = await api.get<Accommodation[]>(`accommodation/search?${query.toString()}`);
+    return response.data;
+};
+
+
 export const getGraph = async () => {
     const response = await api.get<Graph>("dashboard/graph")
     return response.data
@@ -165,4 +258,10 @@ export const getOwnerLIst = async () => {
     });
     return response.data
 }
+
+export const logout = async () => {
+    const response = await api.post("auth/logout");
+    return response.data;
+};
+
 export default api;

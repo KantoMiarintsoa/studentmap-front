@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { addEventSchema, EventFormData } from "../schema/addEvent.schema";
 import { addEvent } from "@/service/api";
 import { Event } from '@/types/event';
+import { useTranslations } from "next-intl";
 
 
 type SaveEventProps = {
@@ -19,6 +20,7 @@ function SaveEvent({onEventCreated}:SaveEventProps) {
   const [successMessage, setSuccessMessage] = useState("");
   const toggleModal = () => setIsOpen(!isOpen);
   const [event,setEvent]=useState("")
+  const t=useTranslations("Event")
 
   const {
     register,
@@ -56,7 +58,7 @@ function SaveEvent({onEventCreated}:SaveEventProps) {
         onClick={toggleModal}
         className="flex items-center gap-2 bg-transparent text-blue-500 border border-blue-500 px-4 py-2 rounded-lg shadow-md hover:bg-blue-100 transition-all"
       >
-        📅 Ajouter Événement <FaPlus />
+        {t("SaveEvent.addEvent")} <FaPlus />
       </button>
 
       {isOpen && (
@@ -64,7 +66,7 @@ function SaveEvent({onEventCreated}:SaveEventProps) {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative"
+            className="bg-card-modal rounded-lg shadow-lg w-full max-w-lg p-6 relative"
           >
             <button
               onClick={toggleModal}
@@ -195,13 +197,13 @@ function SaveEvent({onEventCreated}:SaveEventProps) {
                 <button
                   type="button"
                   onClick={toggleModal}
-                  className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400"
+                  className="px-4 py-2 dark:bg-slate-600 rounded-md hover:bg-gray-400 cursor-pointer"
                 >
                   ❌ Annuler
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 cursor-pointer"
                 >
                   Enregistrer
                 </button>
@@ -214,7 +216,7 @@ function SaveEvent({onEventCreated}:SaveEventProps) {
       {successMessage && (
         <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
           {successMessage}
-        </div>
+        </div>  
       )}
     </>
   );

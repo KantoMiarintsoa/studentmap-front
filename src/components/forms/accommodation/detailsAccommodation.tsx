@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { FaTimes, FaHome } from 'react-icons/fa';
 import { addAccommodationFormData, addAccommodationSchema } from '../schema/addAccommodationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
 
 function DetailAccommodation({ id }: { id: number }) {
     const [accommodation, setAccommodation] = useState<Accommodation>();
@@ -15,6 +16,7 @@ function DetailAccommodation({ id }: { id: number }) {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const router = useRouter();
+    const t=useTranslations("Accommodation")
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm<addAccommodationFormData>({
         resolver: zodResolver(addAccommodationSchema)
@@ -64,10 +66,14 @@ function DetailAccommodation({ id }: { id: number }) {
         setTimeout(() => setSuccessMessage(null), 3000);
     };
 
+    useEffect(()=>{
+        console.log(errors)
+    }, [errors])
+
     if (!accommodation) return <p className="text-center text-gray-600 font-semibold">Chargement...</p>;
 
     return (
-        <div className="p-8 bg-white rounded-lg border-4 border-gray-300 shadow-xl max-w-4xl mx-auto mt-8">
+        <div className="p-8 bg-card-modal rounded-lg border-4 border-gray-600 shadow-[0_4px_20px_rgba(255,255,255,0.08)] max-w-4xl mx-auto mt-8">
             <h2 className="text-3xl font-bold text-blue-800 mb-6 text-center">{accommodation.name}</h2>
 
             {error && (
@@ -76,14 +82,14 @@ function DetailAccommodation({ id }: { id: number }) {
                 </div>
             )}
 
-            <div className="space-y-6">
-                <p className="text-lg"><strong>Nom:</strong> {accommodation.name}</p>
-                <p className="text-lg"><strong>Adresse:</strong> {accommodation.address}</p>
-                <p className="text-lg"><strong>Superficie:</strong> {accommodation.area} m²</p>
-                <p className="text-lg"><strong>Capacité:</strong> {accommodation.receptionCapacity}</p>
-                <p className="text-lg"><strong>Disponible:</strong> {accommodation.IsAvailable ? 'Oui' : 'Non'}</p>
-                <p className="text-lg"><strong>Loyer:</strong> {accommodation.rentMin} - {accommodation.rentMax}</p>
-                <p className="text-lg"><strong>Type:</strong> {accommodation.type}</p>
+            <div className="space-y-6 ">
+                <p className="text-lg"><strong>{t("listAccommodations.name")}:</strong> {accommodation.name}</p>
+                <p className="text-lg"><strong>{t("listAccommodations.address")}:</strong> {accommodation.address}</p>
+                <p className="text-lg"><strong>{t("detailsAccommodation.area")}:</strong> {accommodation.area} m²</p>
+                <p className="text-lg"><strong>{t("detailsAccommodation.capacity")}:</strong> {accommodation.receptionCapacity}</p>
+                <p className="text-lg"><strong>{t("listAccommodations.available")}:</strong> {accommodation.IsAvailable ? 'Oui' : 'Non'}</p>
+                <p className="text-lg"><strong>{t("detailsAccommodation.rent")}:</strong> {accommodation.rentMin} - {accommodation.rentMax}</p>
+                <p className="text-lg"><strong>{t("listAccommodations.type")}:</strong> {accommodation.type}</p>
             </div>
 
             <div className="mt-8 flex justify-end space-x-4">
@@ -91,20 +97,20 @@ function DetailAccommodation({ id }: { id: number }) {
                     className="px-6 py-2 text-blue-700 border-2 border-blue-700 rounded hover:bg-blue-100 cursor-pointer"
                     onClick={() => setShowModal(true)}
                 >
-                    Éditer
+                    {t("detailsAccommodation.edit")}
                 </button>
                 <button
                     className="px-6 py-2 text-red-700 border-2 border-red-700 rounded hover:bg-red-100 cursor-pointer"
                     onClick={() => setShowConfirmation(true)}
                 >
-                    Supprimer
+                    {t("detailsAccommodation.remove")}
                 </button>
             </div>
 
             {showConfirmation && (
-                <div className="fixed inset-0 z-50 flex items-center justify-end p-6">
-                    <div className="bg-white rounded-lg shadow-lg p-4 w-full max-w-xs border border-orange-500">
-                        <h3 className="text-sm font-semibold text-center mt-2">Supprimer le logement ?</h3>
+                <div className="fixed inset-0 z-50 flex items-center justify-end p-6 ">
+                    <div className="bg-card-modal rounded-lg shadow-lg p-4 w-full max-w-xs border border-blue-500">
+                        <h3 className="text-sm font-semibold text-center mt-2 ">Supprimer le logement ?</h3>
                         <div className="mt-4 flex justify-start gap-3">
                             <button
                                 onClick={() => setShowConfirmation(false)}
@@ -134,7 +140,7 @@ function DetailAccommodation({ id }: { id: number }) {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative"
+                        className="bg-card-modal rounded-lg shadow-lg w-full max-w-lg p-6 relative"
                     >
                         <button
                             onClick={() => setShowModal(false)}
@@ -144,44 +150,44 @@ function DetailAccommodation({ id }: { id: number }) {
                         </button>
 
                         <h2 className="text-xl font-semibold mb-4 text-center flex items-center justify-center gap-2">
-                            <FaHome className="text-blue-500" /> Modifier le logement
+                            <FaHome className="text-[#1E3A8A] dark:text-[#3B5BDB] drop-shadow-[0_0_6px_rgba(30,58,138,0.6)]" /> Modifier le logement
                         </h2>
 
                         <form onSubmit={handleSubmit(handleUpdate)} className="space-y-4">
                             <div>
                                 <label className="block mb-1">Nom</label>
-                                <input {...register("name")} type="text" className="w-full border p-2 rounded-md" />
+                                <input {...register("name")} type="text" className="w-full border p-2 rounded-lg" />
                                 {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
                             </div>
 
                             <div>
                                 <label className="block mb-1">Adresse</label>
-                                <input {...register("address")} type="text" className="w-full border p-2 rounded-md" />
+                                <input {...register("address")} type="text" className="w-full border p-2 rounded-lg" />
                             </div>
 
                             <div>
                                 <label className="block mb-1">Surface (m²)</label>
-                                <input {...register("area", { valueAsNumber: true })} type="number" className="w-full border p-2 rounded-md" />
+                                <input {...register("area", { valueAsNumber: true })} type="number" className="w-full border p-2 rounded-lg" />
                             </div>
 
                             <div>
                                 <label className="block mb-1">Capacité d'accueil</label>
-                                <input {...register("receptionCapacity")} type="text" className="w-full border p-2 rounded-md" />
+                                <input {...register("receptionCapacity")} type="text" className="w-full border p-2 rounded-lg" />
                             </div>
 
                             <div>
                                 <label className="block mb-1">Loyer min</label>
-                                <input {...register("rentMin", { valueAsNumber: true })} type="number" className="w-full border p-2 rounded-md" />
+                                <input {...register("rentMin", { valueAsNumber: true })} type="number" className="w-full border p-2 rounded-lg" />
                             </div>
 
                             <div>
                                 <label className="block mb-1">Loyer max</label>
-                                <input {...register("rentMax", { valueAsNumber: true })} type="number" className="w-full border p-2 rounded-md" />
+                                <input {...register("rentMax", { valueAsNumber: true })} type="number" className="w-full border p-2 rounded-lg" />
                             </div>
 
                             <div>
                                 <label className="block mb-1">Type</label>
-                                <select {...register("type")} className='w-full border p-2 rounded-md'>
+                                <select {...register("type")} className='w-full border p-2 rounded-lg'>
                                     <option value="">Sélectionner le type</option>
                                     <option value="BUNGALOW">Bungalow</option>
                                     <option value="APARTEMENT">Appartement</option>
@@ -194,14 +200,14 @@ function DetailAccommodation({ id }: { id: number }) {
                             <div className="flex justify-end gap-4 mt-6">
                                 <button
                                     type="submit"
-                                    className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                    className="px-6 py-2 text-blue-700 border-2 border-blue-700 rounded hover:bg-blue-200 cursor-pointer"
                                 >
                                     Sauvegarder
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setShowModal(false)}
-                                    className="px-6 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                                    className="px-6 py-2 text-slate-800 dark:text-slate-200 border-2 border-slate-800 dark:border-slate-200 rounded hover:bg-slate-100 dark:hover:bg-slate-600 cursor-pointer"
                                 >
                                     Annuler
                                 </button>

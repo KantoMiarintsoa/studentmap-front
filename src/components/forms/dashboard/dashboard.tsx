@@ -23,6 +23,8 @@ import { getDashboard, getGraph } from '@/service/api';
 import { useEffect, useState } from 'react';
 import { Graph } from '@/types/graph';
 import { Total } from '@/types/dashboard';
+import { useTranslations } from 'next-intl';
+import { useTheme } from 'next-themes';
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
@@ -45,6 +47,7 @@ export default function Dashboard() {
     totalAccommodations:0,
     totalUsers:0
   })
+  const t=useTranslations('Dashboard')
 
   useEffect(() => {
     setIsClient(true);
@@ -80,37 +83,35 @@ export default function Dashboard() {
 
   const mainStats = [
     { 
-      title: 'Utilisateurs', 
+      title: t('Users'), 
       value: total.totalUsers, 
       change: '+324', 
       icon: <User size={24} />, 
-      color: 'bg-sky-100 text-sky-900' 
+      color: 'bg-card text-card-foreground' 
     },
     { 
-      title: 'Logements', 
+      title: t('Accommodations'), 
       value: total.totalAccommodations, 
       change: '+58', 
       icon: <Home size={24} />, 
-      color: 'bg-sky-100 text-sky-900' 
+      color: 'bg-card text-card-foreground' 
     },
     { 
-      title: 'Universités', 
+      title: t('Universities'), 
       value: total.totalUniversities, 
       change: '+3', 
       icon: <GraduationCap size={24} />, 
-      color: 'bg-sky-100 text-sky-900' 
+      color: 'bg-card text-card-foreground' 
     },
     { 
-      title: 'Événements', 
+      title: t('Event'), 
       value: total.totalEvents, 
       change: '+11', 
       icon: <Calendar size={24} />, 
-      color: 'bg-sky-100 text-sky-900' 
+      color: 'bg-card text-card-foreground' 
     },
     
   ];
-
-
 
   const lineData = {
     labels: Array.isArray(graph) ? graph.map(item => item.month) : [],
@@ -137,7 +138,7 @@ export default function Dashboard() {
   };
 
   const pieData = {
-    labels: ['Utilisateurs', 'Logements', 'Universités','Evenements'],
+    labels: [t('Users'), t('Accommodations'), t('Universities'),t('Event')],
     datasets: [
       {
         data: [60, 25, 15,10],
@@ -158,10 +159,13 @@ export default function Dashboard() {
     { name: "Rene Razafindranazy", position: [-18.925, 47.515], info: "Étudiant en Réseaux Informatiques" },
   ];
 
+  const {theme} = useTheme();
+  console.log(theme);
+
   return (
-    <motion.div className="p-8 bg-sky-50 min-h-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
+    <motion.div className="p-8 bg-card-primary min-h-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
       <motion.div className="mb-8 flex justify-between items-center" initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-        <h1 className="text-3xl font-bold text-sky-900">Kanto</h1>
+        <h1 className="text-3xl font-bold text-sky-900"></h1>
         <div className="flex items-center gap-4">
           <span className="text-sky-900 font-medium">Admin</span>
           <span className="text-sm text-sky-700">Admin Général</span>
@@ -172,27 +176,27 @@ export default function Dashboard() {
         {mainStats.map((stat, idx) => (
           <motion.div key={idx} className={`rounded-xl p-6 shadow ${stat.color}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: idx * 0.1 }}>
             <div className="flex justify-between items-center mb-2">{stat.icon}</div>
-            <p className="text-sm text-sky-700">{stat.title}</p>
+            <p className="text-sm text-card-foreground">{stat.title}</p>
             <p className="text-2xl font-bold">{stat.value}</p>
-            <p className="text-xs text-sky-500">{stat.change}</p>
+            <p className="text-xs ext-card-foreground">{stat.change}</p>
           </motion.div>
         ))}
       </motion.div>
 
       <motion.div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        <motion.div className="col-span-2 bg-white p-6 rounded-xl shadow" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
-          <h2 className="text-lg font-semibold text-sky-700 mb-4">Évolution des Inscriptions</h2>
+        <motion.div className="col-span-2 bg-white dark:bg-card p-6 rounded-xl shadow" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
+          <h2 className="text-lg font-semibold text-primary-foreground mb-4">{t('evolutionRegistrations')}</h2>
           <Line data={graph} />
         </motion.div>
-        <motion.div className="bg-white p-6 rounded-xl shadow" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.2 }}>
-          <h2 className="text-lg font-semibold text-sky-700 mb-4">Répartition</h2>
+        <motion.div className="bg-white dark:bg-card p-6 rounded-xl shadow" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.2 }}>
+          <h2 className="text-lg font-semibold text-primary-foreground mb-4">{t('Distribution')}</h2>
           <Pie data={pieData} />
         </motion.div>
       </motion.div>
 
       <motion.div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        <motion.div className="bg-white p-6 rounded-xl shadow" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
-          <h2 className="text-lg font-semibold text-sky-700 mb-4">Carte des Universités</h2>
+        <motion.div className="bg-white dark:bg-card p-6 rounded-xl shadow" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
+          <h2 className="text-lg font-semibold text-primary-foreground mb-4">{t('universitiesMap')}</h2>
           <MapContainer center={[-18.8792, 47.5079] as LatLngTuple} zoom={6} style={{ height: "300px", width: "100%" }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {mapMarkers.map((marker, idx) => (
@@ -203,8 +207,8 @@ export default function Dashboard() {
           </MapContainer>
         </motion.div>
 
-        <motion.div className="bg-white p-6 rounded-xl shadow" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.2 }}>
-          <h2 className="text-lg font-semibold text-sky-700 mb-4">Carte des Étudiants</h2>
+        <motion.div className="bg-white dark:bg-card p-6 rounded-xl shadow" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.2 }}>
+          <h2 className="text-lg font-semibold text-primary-foreground mb-4">{t('HousingMap')}</h2>
           <MapContainer center={[-18.8792, 47.5079] as LatLngTuple} zoom={6} style={{ height: "300px", width: "100%" }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {studentMarkers.map((student, idx) => (
@@ -221,3 +225,5 @@ export default function Dashboard() {
     </motion.div>
   );
 }
+
+

@@ -11,9 +11,8 @@ function EventPage() {
   }
 
   return (
-    <div className='flex flex-col items-end min-h-screen bg-gray-100 p-4 relative w-full'>
+    <div className='flex flex-col items-end min-h-screen bg-card-primary p-4 relative w-full '>
       <ListEvent />
-      <SaveEvent onEventCreated={handleEventCreated} />
     </div>
   )
 }
